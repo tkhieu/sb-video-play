@@ -31,6 +31,8 @@ public class PlayAllActivity extends AppCompatActivity {
         this.emVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                emVideoView.start();
+                alreadyPlay = true;
             }
         });
         this.emVideoView.setOnClickListener(new View.OnClickListener() {
@@ -48,33 +50,19 @@ public class PlayAllActivity extends AppCompatActivity {
 
         emVideoView.setVideoURI(Uri.parse(AppData.videoList.get(playListCurrent)));
 
-        emVideoView.addExoPlayerListener(new ExoPlayerListener() {
-            @Override
-            public void onStateChanged(boolean playWhenReady, int playbackState) {
-                if(playbackState == ExoPlayer.STATE_ENDED && alreadyPlay){
-                    if(playListCurrent < playListSize-1 && alreadyPlay) {
-                        playListCurrent++;
-                        Log.d("ExoMedia",String.valueOf(playListCurrent));
-                        emVideoView.setPositionOffset(0);
-                        emVideoView.setVideoURI(Uri.parse(AppData.videoList.get(playListCurrent)));
-                        emVideoView.start();
 
-                    }
-                    alreadyPlay = false;
+        emVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                if(playListCurrent < playListSize-1 && alreadyPlay) {
+                    playListCurrent++;
+                    Log.d("ExoMedia",String.valueOf(playListCurrent));
+                    emVideoView.setPositionOffset(0);
+                    emVideoView.setVideoURI(Uri.parse(AppData.videoList.get(playListCurrent)));
+                    emVideoView.start();
+
                 }
-                if (emVideoView.isPlaying()){
-                    alreadyPlay = true;
-                }
-
-            }
-
-            @Override
-            public void onError(Exception e) {
-            }
-
-            @Override
-            public void onVideoSizeChanged(int width, int height, int unAppliedRotationDegrees, float pixelWidthHeightRatio) {
-
+                alreadyPlay = false;
             }
         });
     }
