@@ -34,14 +34,23 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
 
         public ViewHolder(View v) {
             super(v);
-            final EMVideoView emVideoView = (EMVideoView)v.findViewById(R.id.video_play_activity_video_view);
-            emVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            this.emVideoView = (EMVideoView)v.findViewById(R.id.video_play_activity_video_view);
+            this.emVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    emVideoView.start();
                 }
             });
-            emVideoView.setVideoURI(Uri.parse("https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"));
+            this.emVideoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (emVideoView.isPlaying()){
+                        emVideoView.pause();
+                    } else {
+                        emVideoView.start();
+                    }
+
+                }
+            });
         }
     }
 
@@ -53,7 +62,6 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.video_card_view, parent, false);
-        // set the view's size, margins, paddings and layout parameters
         ViewHolder vh = new ViewHolder(v);
         return vh;
     }
@@ -61,10 +69,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-//        holder.mTextView.setText(mDataset.get(position));
-
+        holder.emVideoView.setVideoURI(Uri.parse(mDataset.get(position)));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
