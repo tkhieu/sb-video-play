@@ -1,10 +1,14 @@
 package me.kimhieu.snowballvideoplayer.adapters;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.devbrackets.android.exomedia.EMVideoView;
 
 import java.util.List;
 
@@ -25,9 +29,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        EMVideoView emVideoView;
+
 
         public ViewHolder(View v) {
             super(v);
+            final EMVideoView emVideoView = (EMVideoView)v.findViewById(R.id.video_play_activity_video_view);
+            emVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    emVideoView.start();
+                }
+            });
+            emVideoView.setVideoURI(Uri.parse("https://archive.org/download/Popeye_forPresident/Popeye_forPresident_512kb.mp4"));
         }
     }
 
