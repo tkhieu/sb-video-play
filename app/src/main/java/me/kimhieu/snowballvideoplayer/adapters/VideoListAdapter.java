@@ -25,11 +25,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView mTextView;
 
         public ViewHolder(View v) {
             super(v);
-            mTextView = (TextView) v.findViewById(R.id.info_text);
         }
     }
 
@@ -51,7 +49,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset.get(position));
+//        holder.mTextView.setText(mDataset.get(position));
 
     }
 
